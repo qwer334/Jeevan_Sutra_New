@@ -1,0 +1,353 @@
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { Link, NavLink, Route, Routes, useLocation } from 'react-router-dom';
+import {
+  ArrowRight, Brain, CheckCircle2, FileText, Heart, HeartHandshake,
+  Eye, EyeOff, LockKeyhole, LogOut, Menu, Search, ShieldCheck, Sparkles, UserRound, UsersRound, X,
+} from 'lucide-react';
+import BrandLogo from './components/BrandLogo.jsx';
+import HeroArtwork from './components/HeroArtwork.jsx';
+import { services, isExternalService, serviceHref } from './config/services.js';
+
+const iconFor = {
+  neuroscan: Brain,
+  donation: Heart,
+};
+
+function ServiceLink({ service, className, children, onClick, ariaLabel }) {
+  const props = { className, onClick, 'aria-label': ariaLabel };
+  if (isExternalService(service)) {
+    return <a href={serviceHref(service)} {...props}>{children}</a>;
+  }
+  return <Link to={serviceHref(service)} {...props}>{children}</Link>;
+}
+
+function Header({ onOpenSearch, onOpenSignIn, currentUser }) {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const location = useLocation();
+  useEffect(() => setMobileOpen(false), [location.pathname, location.hash]);
+
+  return (
+    <header className="site-header">
+      <div className="header-inner content-width">
+        <BrandLogo />
+        <nav className={`nav-links ${mobileOpen ? 'nav-open' : ''}`} id="main-navigation" aria-label="Main navigation">
+          <NavLink to="/" end className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`} onClick={() => setMobileOpen(false)}>Home</NavLink>
+          {services.map((service) => (
+            <ServiceLink key={service.id} service={service} className="nav-link" onClick={() => setMobileOpen(false)}>{service.name}</ServiceLink>
+          ))}
+          <Link to="/#about" className="nav-link" onClick={() => setMobileOpen(false)}>About</Link>
+          <button className="nav-link nav-auth" type="button" onClick={() => { setMobileOpen(false); onOpenSignIn(); }}>{currentUser ? 'My account (User1)' : 'Sign In'}</button>
+        </nav>
+        <div className="header-actions">
+          <button className="icon-action search-trigger" type="button" aria-label="Search services" title="Search services" onClick={onOpenSearch}><Search size={23} strokeWidth={2} /></button>
+          <button className="btn btn-outline sign-in-btn" type="button" onClick={onOpenSignIn}>
+            {currentUser ? <><UserRound size={17} aria-hidden="true" /> {currentUser.name}</> : 'Sign In'}
+          </button>
+          <Link className="btn btn-primary header-get-started" to="/#tools">Request a demo <ArrowRight size={19} strokeWidth={2} /></Link>
+          <button type="button" className="icon-action mobile-menu-button" onClick={() => setMobileOpen(!mobileOpen)} aria-label={mobileOpen ? 'Close menu' : 'Open menu'} aria-controls="main-navigation" aria-expanded={mobileOpen}>
+            {mobileOpen ? <X size={25} /> : <Menu size={25} />}
+          </button>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+function ServiceCard({ service }) {
+  const Icon = iconFor[service.id];
+  return (
+    <article className={`service-card service-${service.id}`}>
+      <div className="card-head">
+        <div className="card-icon"><Icon aria-hidden="true" size={43} strokeWidth={1.85} /></div>
+
+      </div>
+      <div className="service-watermark" aria-hidden="true"><Icon size={168} strokeWidth={1.2} /></div>
+      <div className="card-content">
+        <h3>{service.name}</h3>
+
+      </div>
+      <div className="card-actions">
+        <ServiceLink service={service} className="btn card-cta">{service.action}<ArrowRight size={21} strokeWidth={1.8} /></ServiceLink>
+        <ServiceLink service={service} className="card-round-link" ariaLabel={`Open ${service.name}`}><ArrowRight size={23} strokeWidth={2} /></ServiceLink>
+      </div>
+    </article>
+  );
+}
+
+function BenefitStrip() {
+  const benefits = [
+    { icon: ShieldCheck, title: 'Privacy-minded', detail: 'Your health deserves careful handling', color: 'blue' },
+    { icon: UsersRound, title: 'Simple to Use', detail: 'Designed for all age groups', color: 'coral' },
+    { icon: Sparkles, title: 'Clearer Insights', detail: 'Understand complex health information', color: 'green' },
+    { icon: Heart, title: 'Real-World Impact', detail: 'For individuals, families and communities', color: 'pink' },
+  ];
+  return (
+    <section className="benefits" aria-labelledby="benefit-title">
+      <div className="benefit-heading" id="benefit-title"><span>BUILT FOR EVERYONE</span></div>
+      <div className="benefit-list">
+        {benefits.map(({ icon: Icon, title, detail, color }) => (
+          <div className="benefit-item" key={title}>
+            <span className={`benefit-icon benefit-${color}`}><Icon size={29} strokeWidth={1.8} aria-hidden="true" /></span>
+            <span className="benefit-text"><strong>{title}</strong><small>{detail}</small></span>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function HomePage() {
+  useEffect(() => { document.title = 'Jeevan Sutra Technologies | Connected Healthcare Platform'; }, []);
+
+  const teamMembers = [
+    { name: 'Etant Rustagi', phone: '+918595745141' },
+    { name: 'Nimish Jain', phone: '+918288634365' },
+    { name: 'Krish Malhotra', phone: '+918860044491' },
+    { name: 'Vibhu Vedant Goel', phone: '+919315779800' },
+    { name: 'Bhavya Pratap Mittal', phone: '+918826704326' },
+  ];
+
+  return (
+    <>
+      <main id="main">
+        <section className="hero" aria-labelledby="hero-title">
+          <div className="hero-wash" aria-hidden="true" />
+          <div className="hero-inner content-width">
+            <div className="hero-copy">
+              <p className="eyebrow">CONNECTED CARE. BETTER OUTCOMES.</p>
+              <h1 id="hero-title">Every organ,<br /><span className="highlight-coral">matched in time.</span></h1>
+              <p className="hero-description">Referral, matching, allocation and clinical insight in one connected platform for India’s transplant network.</p>
+              <div className="hero-buttons">
+                <Link to="/#tools" className="btn btn-primary hero-primary">Explore the platform <ArrowRight size={20} /></Link>
+                <a href="#team-contact" className="btn btn-outline hero-secondary">Talk to our team</a>
+              </div>
+            </div>
+            <HeroArtwork />
+          </div>
+        </section>
+
+        <section id="tools" className="tools-section content-width" aria-labelledby="tools-heading">
+          <h2 className="sr-only" id="tools-heading">Choose a healthcare tool</h2>
+          <div className="service-grid">
+            {services.map((service) => <ServiceCard key={service.id} service={service} />)}
+          </div>
+        </section>
+
+
+
+        <section className="about-banner content-width" id="about" aria-labelledby="about-title">
+          <div>
+            <p className="eyebrow">A HEALTHIER TOMORROW</p>
+            <h2 id="about-title">Technology that connects every step of care.</h2>
+            <p></p>
+          </div>
+          <Link to="/#tools" className="btn btn-primary about-cta">View Services <ArrowRight size={20} /></Link>
+        </section>
+
+        <section className="content-width" id="team-contact" aria-labelledby="team-contact-title" style={{ padding: '2rem 0 4rem' }}>
+          <p className="eyebrow">TALK TO OUR TEAM</p>
+          <h2 id="team-contact-title" style={{ marginBottom: '1.25rem' }}>Connect with the Jeevan Sutra team</h2>
+          <div style={{ display: 'grid', gap: '0.9rem', maxWidth: '820px' }}>
+            {teamMembers.map(({ name, phone }) => (
+              <a
+                key={name}
+                href={`tel:${phone}`}
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  gap: '1rem',
+                  background: '#f6fbfd',
+                  border: '1px solid rgba(15, 116, 146, 0.12)',
+                  borderRadius: '14px',
+                  padding: '0.9rem 1rem',
+                  color: '#0d2435',
+                  textDecoration: 'none',
+                  fontWeight: 600,
+                }}
+              >
+                <span>{name}</span>
+                <span>{phone}</span>
+              </a>
+            ))}
+          </div>
+        </section>
+
+      </main>
+      <Footer />
+    </>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="site-footer">
+      <div className="content-width footer-inner">
+        <div><BrandLogo variant="inverse" /><p>Technology for a more connected transplant ecosystem.</p></div>
+        <div className="footer-links"><Link to="/">Home</Link><Link to="/#tools">Platform</Link><Link to="/#about">About</Link></div>
+      </div>
+      <p className="footer-disclaimer content-width">Jeevan Sutra Technologies Pvt Limited · Prototype platform. Clinical decisions and official registration require authorized professionals and processes.</p>
+    </footer>
+  );
+}
+
+function ServicePlaceholder({ service }) {
+  const Icon = iconFor[service.id];
+  useEffect(() => { document.title = `${service.name} | Jeevan Sutra`; }, [service]);
+  return (
+    <main id="main" className="placeholder-page content-width">
+      <div className={`placeholder-icon service-${service.id}`}><Icon size={54} strokeWidth={1.5} aria-hidden="true" /></div>
+      <span className="eyebrow">JEEVAN SUTRA PLATFORM</span>
+      <h1>{service.name}</h1>
+      <h2>{service.headline}</h2>
+      <p>{service.longDescription}</p>
+      <div className="placeholder-note"><CheckCircle2 size={22} aria-hidden="true" /><span>{'This module is not available in the current build.'}</span></div>
+      <div className="placeholder-actions"><Link className="btn btn-primary" to="/#tools">Back to all services <ArrowRight size={18} /></Link><Link className="btn btn-outline" to="/">Go Home</Link></div>
+    </main>
+  );
+}
+
+function SearchDialog({ onClose }) {
+  const [query, setQuery] = useState('');
+  const inputRef = useRef(null);
+  const results = useMemo(() => services.filter(s => `${s.name} ${s.headline} ${s.description}`.toLowerCase().includes(query.trim().toLowerCase())), [query]);
+  useEffect(() => {
+    inputRef.current?.focus();
+    const onKey = (event) => { if (event.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [onClose]);
+  return (
+    <div className="modal-backdrop" onMouseDown={onClose}>
+      <div className="dialog search-dialog" role="dialog" aria-modal="true" aria-label="Search healthcare services" onMouseDown={(e) => e.stopPropagation()}>
+        <div className="dialog-header"><h2>What can we help with?</h2><button type="button" className="icon-action" onClick={onClose} aria-label="Close search"><X size={23} /></button></div>
+        <label className="search-input-wrap"><Search size={20} aria-hidden="true" /><input ref={inputRef} placeholder="Try ‘brain scan’ or ‘donation’" value={query} onChange={e => setQuery(e.target.value)} aria-label="Search for a service" /></label>
+        <div className="search-results" aria-live="polite">
+          {results.length ? results.map(s => {
+            const Icon = iconFor[s.id];
+            return <ServiceLink key={s.id} service={s} className="search-result" onClick={onClose}><span className={`search-result-icon service-${s.id}`}><Icon size={24} /></span><span><strong>{s.name}</strong><small>{s.headline}</small></span><ArrowRight size={18} /></ServiceLink>;
+          }) : <p className="no-results">No matching service found. Try a different word.</p>}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// HACKATHON DEMO LOGIN ONLY — never use a hardcoded PIN for real accounts or medical files.
+function SignInDialog({ onClose, onLogin, onLogout, currentUser }) {
+  const [pin, setPin] = useState('');
+  const [showPin, setShowPin] = useState(false);
+  const [error, setError] = useState('');
+  const pinRef = useRef(null);
+
+  useEffect(() => {
+    if (!currentUser) pinRef.current?.focus();
+    const onKey = (event) => { if (event.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [onClose, currentUser]);
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    if (pin.length !== 4) {
+      setError('Please enter a 4-digit PIN.');
+      return;
+    }
+    if (pin === '0000') {
+      setError('');
+      onLogin({ name: 'User1' });
+      onClose();
+    } else {
+      setError('Incorrect password');
+      setPin('');
+      pinRef.current?.focus();
+    }
+  }
+
+  return (
+    <div className="modal-backdrop" onMouseDown={onClose}>
+      <div className="dialog sign-in-dialog" role="dialog" aria-modal="true" aria-labelledby="signin-heading" onMouseDown={e => e.stopPropagation()}>
+        <button type="button" className="dialog-x icon-action" onClick={onClose} aria-label="Close sign-in dialog"><X size={22} /></button>
+        {currentUser ? (
+          <div className="signin-content">
+            <div className="signin-symbol"><UserRound size={30} strokeWidth={1.65} /></div>
+            <span className="demo-label">DEMO ACCOUNT</span>
+            <h2 id="signin-heading">Welcome back, {currentUser.name}!</h2>
+            <p>You're signed in to the Jeevan Sutra demo. Explore the connected healthcare platform from the homepage.</p>
+            <div className="signin-actions">
+              <Link to="/#tools" onClick={onClose} className="btn btn-primary">Explore our tools <ArrowRight size={18} /></Link>
+              <button className="btn btn-outline" type="button" onClick={() => { onLogout(); onClose(); }}><LogOut size={17} /> Sign Out</button>
+            </div>
+          </div>
+        ) : (
+          <div className="signin-content">
+            <div className="signin-symbol"><LockKeyhole size={30} strokeWidth={1.65} /></div>
+            <span className="demo-label">WELCOME TO DOOSRAJEEVAN</span>
+            <h2 id="signin-heading">Sign in with your PIN</h2>
+            <p>Enter your 4-digit PIN to continue to your demo account.</p>
+            <form className="pin-form" onSubmit={handleSubmit} noValidate>
+              <label className="pin-label" htmlFor="demo-pin">4-digit PIN</label>
+              <div className={`pin-input-wrap ${error ? 'pin-invalid' : ''}`}>
+                <input
+                  id="demo-pin" ref={pinRef} type={showPin ? 'text' : 'password'}
+                  inputMode="numeric" autoComplete="off" enterKeyHint="go"
+                  maxLength={4} value={pin} placeholder="••••"
+                  aria-describedby="pin-help pin-error" aria-invalid={Boolean(error)}
+                  onChange={event => { setPin(event.target.value.replace(/\D/g, '').slice(0, 4)); setError(''); }}
+                />
+                <button type="button" className="pin-visibility" onClick={() => setShowPin(!showPin)} aria-label={showPin ? 'Hide PIN' : 'Show PIN'}>
+                  {showPin ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+              </div>
+              <p id="pin-help" className="pin-hint">For this hackathon demo, use PIN <strong>0000</strong>.</p>
+              <div id="pin-error" className="pin-error" role="alert">{error || '\u00A0'}</div>
+              <button className="btn btn-primary pin-submit" type="submit">Sign In <ArrowRight size={19} /></button>
+            </form>
+            <p className="demo-disclaimer">Demo access only. No real account verification or medical file authorization is enabled.</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function ScrollToHash() {
+  const location = useLocation();
+  useEffect(() => {
+    if (!location.hash) { window.scrollTo({ top: 0, behavior: 'auto' }); return; }
+    const id = decodeURIComponent(location.hash.slice(1));
+    const frame = requestAnimationFrame(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+    return () => cancelAnimationFrame(frame);
+  }, [location.pathname, location.hash]);
+  return null;
+}
+
+function FullPageRedirect({to}) { useEffect(() => { window.location.replace(to); },[to]); return <main className="redirecting" id="main">Opening service…</main>; }
+
+export default function App() {
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [signInOpen, setSignInOpen] = useState(false);
+  // sessionStorage keeps the demo name on refresh within the same tab, not a secure login session.
+  const [currentUser, setCurrentUser] = useState(() =>
+    window.sessionStorage.getItem('doosrajeevan_demo_user') === 'User1' ? { name: 'User1' } : null
+  );
+  const handleLogin = (user) => { window.sessionStorage.setItem('doosrajeevan_demo_user', user.name); setCurrentUser(user); };
+  const handleLogout = () => { window.sessionStorage.removeItem('doosrajeevan_demo_user'); setCurrentUser(null); };
+  const location = useLocation();
+  useEffect(() => { setSearchOpen(false); setSignInOpen(false); }, [location.pathname]);
+  useEffect(() => { document.body.classList.toggle('modal-open', searchOpen || signInOpen); return () => document.body.classList.remove('modal-open'); }, [searchOpen, signInOpen]);
+  return (
+    <>
+      <a href="#main" className="skip-link">Skip to content</a>
+      <ScrollToHash />
+      <Header onOpenSearch={() => setSearchOpen(true)} onOpenSignIn={() => setSignInOpen(true)} currentUser={currentUser} />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path='/neuroscan' element={<FullPageRedirect to='/modules/neuro/'/>} />
+        <Route path='/organ-donation' element={<FullPageRedirect to='/modules/organ/'/>} />
+        <Route path="*" element={<main className="placeholder-page content-width" id="main"><h1>Page not found</h1><p>We couldn't find that page.</p><Link className="btn btn-primary" to="/">Go back home <ArrowRight size={18} /></Link></main>} />
+      </Routes>
+      {searchOpen && <SearchDialog onClose={() => setSearchOpen(false)} />}
+      {signInOpen && <SignInDialog onClose={() => setSignInOpen(false)} onLogin={handleLogin} onLogout={handleLogout} currentUser={currentUser} />}
+    </>
+  );
+}

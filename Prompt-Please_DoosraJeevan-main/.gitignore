@@ -1,0 +1,33 @@
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+.env
+.env.*
+**/.env
+**/.env.*
+!.env.example
+!**/.env.example
+*.log
+.DS_Store
+.vite/
+coverage/
+
+.local-data/
+**/.local-data/
+
+# Local Hardhat manifest, chain state, private test data
+**/deployments/
+**/cache/
+
+# Local secrets and generated files
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+**/node_modules/
+**/artifacts/
+**/cache/
+**/dist/

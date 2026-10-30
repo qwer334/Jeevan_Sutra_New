@@ -1,0 +1,23 @@
+/* Shared Jeevan Sutra loading transition. */
+:root{--dj-ink:#153D47;--dj-teal:#0F7492;--dj-lime:#84CA12;--dj-poppins:'Poppins',system-ui,sans-serif}
+#dj-loading-screen{position:fixed;inset:0;z-index:2147483600;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 78% 20%,#E7F3F2 0,transparent 48%),linear-gradient(135deg,#F0F9F8,#fff 56%,#EAF5F4);font-family:var(--dj-poppins);color:var(--dj-ink);transition:opacity .28s ease,visibility .28s ease}
+#dj-loading-screen.dj-hidden{opacity:0;visibility:hidden;pointer-events:none}
+.dj-loading-content{width:min(430px,90vw);text-align:center;display:flex;align-items:center;flex-direction:column;padding:32px 24px}
+.dj-loading-mark{width:92px;height:76px;display:grid;place-items:center;border:1px solid #D9E9E7;background:var(--dj-teal);border-radius:20px;box-shadow:0 16px 48px #0F74921A;color:var(--dj-lime)}
+.dj-loading-mark svg{width:66px;height:36px}
+.dj-loading-wordmark{font-size:28px;font-weight:700;letter-spacing:-.05em;color:var(--dj-teal);margin:19px 0 3px}
+.dj-loading-subline{font-size:8px;letter-spacing:.24em;font-weight:600;color:#527078;margin:0 0 13px}
+.dj-loading-module{font-size:14px;font-weight:600;color:#375D65;margin:0 0 22px}
+.dj-loading-progress{height:4px;background:#DCEBE9;border-radius:10px;overflow:hidden;width:205px}
+.dj-loading-progress:after{content:"";display:block;width:45%;height:100%;background:linear-gradient(90deg,#B7DB79,#84CA12);border-radius:10px;animation:dj-loader-move 1.4s ease-in-out infinite}
+.dj-loading-help{font-size:12px;color:#667D81;margin-top:16px;line-height:1.5}
+.dj-loading-error{display:none;margin-top:24px;max-width:390px}
+#dj-loading-screen.dj-error .dj-loading-progress{display:none}
+#dj-loading-screen.dj-error .dj-loading-error{display:block}
+#dj-loading-screen.dj-error .dj-loading-help{display:none}
+.dj-loader-actions{display:flex;gap:10px;justify-content:center;margin-top:16px;flex-wrap:wrap}
+.dj-loader-actions a,.dj-loader-actions button{padding:11px 18px;border-radius:9px;font:600 13px var(--dj-poppins);cursor:pointer;text-decoration:none}
+.dj-loader-actions button{background:var(--dj-teal);color:white;border:1px solid var(--dj-teal)}
+.dj-loader-actions a{border:1px solid #C6DEDF;color:var(--dj-ink);background:#fff}
+@keyframes dj-loader-move{0%{transform:translateX(-130%)}50%{transform:translateX(180%)}100%{transform:translateX(340%)}}
+@media(prefers-reduced-motion:reduce){.dj-loading-progress:after{animation:none;width:100%}#dj-loading-screen{transition:none}}

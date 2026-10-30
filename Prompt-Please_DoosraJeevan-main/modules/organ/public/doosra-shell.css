@@ -1,0 +1,149 @@
+/* DoosraJeevan integrated full-page Organ Donation experience */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Roboto:wght@400;500;600;700&display=swap');
+:root{--font-heading:'Poppins',sans-serif;--font-sans:'Poppins',sans-serif;--font-family-base:'Poppins',sans-serif;--font-hindi:'Poppins',sans-serif;--font-mono:'Roboto',sans-serif;--font-base-size:15px;}
+html,body.gov-theme,body.gov-theme :where(button,input,select,textarea,h1,h2,h3,h4,h5,h6,p,a,span,label,div,table,th,td){font-family:'Poppins',sans-serif!important}
+body.gov-theme :where(.ticker-val,.number,.num,.stat-val,.stat-value,.metric-value,.metric-number,[id*=Count],[id*=Block],[id*=Height],input[type=number],input[type=tel]){font-family:'Roboto',sans-serif!important;font-variant-numeric:tabular-nums;}
+/* Single unified site navbar */
+.dj-global-nav{width:100%;min-height:76px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:13px max(32px,5vw);background:#fff;border-bottom:1px solid #ebf1f8;position:relative;z-index:100}
+.dj-global-brand{display:flex;gap:10px;align-items:center;font-size:26px;color:#071b55;text-decoration:none;font-weight:800;letter-spacing:-.05em}
+.dj-global-mark{color:#ff554b;font-size:30px;line-height:1}
+.dj-global-links{display:flex;align-items:center;gap:32px}
+.dj-global-links a{color:#071b55;font-size:14px;text-decoration:none;font-weight:600;white-space:nowrap}
+.dj-global-links a[aria-current=page]{border-bottom:2px solid #ff554b;padding:11px 0}
+/* Remove duplicate portal chrome and requested status/reset/debug UI — underlying logic remains */
+.integration-disclaimer,.gov-utility-bar,.tricolor-strip,.gov-header,.ticker-bar,
+.network-sync-pill,#btnRefreshSync,.sync-trigger-btn,
+#btnSidebarResetDb,#btnUtilityResetDb,.btn-clean-reset,.footer-reset-btn,.utility-reset-btn,
+.header-block-info,#headerBlockDisplay,#headerNottoBadge,.notto-badge,.sidebar-brand,
+.view-desc,.chart-card-sub,.portal-title-hi,.view-title-hi,.nav-section-title,.brand-title-sub,
+.preloader-namaste-hi,.preloader-subtitle,.preloader-prototype-badge,.ticker-metrics,
+.card-neuroscan,.panel-header-banner,#view-neuroscan .panel-header-banner,
+#view-neuroscan>div:nth-child(2),#view-neuroscan>div:nth-child(3),
+#btnRefreshSync,#headerNottoBadge,#headerBlockDisplay{display:none!important}
+/* Eliminate extra marketing / status lines, retain labels needed to operate forms */
+.view-title-en{color:#071b55!important;font-size:clamp(25px,2.5vw,37px)!important;font-weight:800!important;letter-spacing:-.04em;line-height:1.2!important;margin-bottom:16px!important}
+.app-shell{width:100%;background:#fffdfb!important;min-height:calc(100vh - 76px)!important}
+.app-main{min-width:0!important;}
+.app-sidebar{background:#fff!important;border-color:#e9eef7!important}
+.nav-item-btn{font-size:14px!important;font-weight:600!important;border-radius:12px!important}
+.view-container{padding:clamp(16px,3vw,32px)!important}
+.donor-form-card,.dashboard-card,.chart-card,.view-header,.stat-card,.form-section{border-radius:18px!important}
+/* Remove dense verbose notes but retain functional form field assistance. */
+.view-header .view-desc,.view-header p,.view-title-hi,.integration-disclaimer{display:none!important}
+/* Make previously duplicate NeuroScan panel navigable by top nav, not obsolete backend cards */
+#view-neuroscan:before{content:'NeuroScan is available from the main navigation above.';display:block;font-size:17px;font-weight:600;padding:30px 22px;color:#071b55;background:#eaf5ff;border-radius:16px}
+#view-neuroscan>div{display:none!important}
+/* The old Hindi-only headings are removed; English headings are emphasized */
+.modal-title-hi,.preloader-namaste-hi,.view-title-hi,.brand-title-sub{display:none!important}
+@media(max-width:800px){.dj-global-nav{min-height:70px;padding:12px 18px;flex-wrap:wrap}.dj-global-links{gap:18px}.dj-global-brand{font-size:22px}.app-shell{min-height:calc(100vh - 70px)!important}}
+@media(max-width:540px){.dj-global-links{width:100%;justify-content:space-between}.dj-global-links a{font-size:12px}.view-title-en{font-size:25px!important}}
+
+.dj-global-svg{width:39px;height:39px;flex-shrink:0}
+.dj-small-legal{padding:14px 22px;text-align:center;background:#fff;color:#667897;font-size:11px!important;border-top:1px solid #e7edf5}
+/* Suppress unreliable simulation badges and presentation-only technical overlays */
+#tickerBar,#headerBlockDisplay,#headerNottoBadge,.live-tag,#navAnomalyScanner .live-tag,
+#btnUtilityResetDb,#btnSidebarResetDb,#btnRefreshSync,
+#view-neuroscan .panel-header-banner,
+#view-dashboard .chart-card-sub,
+#view-waitlists .view-desc,#view-donor-registration .view-desc,
+.preloader-prototype-badge{display:none!important}
+/* Larger English feature headings across all views */
+.view-container .view-title-en,.view-container .view-title{font-size:clamp(26px,2.3vw,36px)!important;font-weight:800!important;color:#071b55!important;letter-spacing:-.035em}
+.view-header{border:0!important;box-shadow:none!important;background:transparent!important}
+
+body.gov-theme .dashboard-stat-number,body.gov-theme .stat-number,body.gov-theme .counter,body.gov-theme .number-cell,body.gov-theme .ticker-val,body.gov-theme .stat-val{font-family:'Roboto',sans-serif!important}
+
+.dj-sidebar-toggle{display:none;border:1px solid #d6e4f4;background:#fff;border-radius:12px;padding:10px 14px;color:#071b55;font-weight:700;font-family:Poppins,sans-serif!important}
+@media(max-width:900px){.dj-sidebar-toggle{display:inline-flex;align-items:center;gap:5px}}
+
+/* Keep diagnostics in the developer console, not in the user-facing agent workspace */
+#masterAgentTelemetryLogs[hidden]{display:none!important}
+
+/* ================================================================
+   JEEVAN SUTRA DESIGN SYSTEM — Organ workspace theme layer
+   Feature navigation, data tables, forms and handlers are unchanged.
+   ================================================================ */
+:root {
+  --js-teal:#0F7492; --js-teal-deep:#0A617A; --js-ink:#153D47;
+  --js-lime:#84CA12; --js-paper:#F0F9F8; --js-mist:#E7F3F2;
+  --js-line:#D9E9E7;
+  --color-primary-navy:#0F7492; --color-navy:#0F7492; --color-navy-dark:#0A617A;
+  --color-navy-light:#1786A3; --color-navy-subtle:#EAF5F4;
+  --color-coral-accent:#84CA12; --color-coral:#84CA12; --color-coral-hover:#70AE08;
+  --color-coral-active:#5D9705; --color-coral-subtle:#F3FBE7;
+  --color-primary:#0F7492; --color-primary-dark:#0A617A; --color-accent:#84CA12;
+  --color-text-primary:#153D47; --text-primary:#153D47; --text-body:#294E55;
+  --gov-navy:#0F7492; --gov-navy-dark:#0A617A; --gov-deep-indigo:#0F7492;
+  --gov-light-blue:#E7F3F2; --gov-saffron:#84CA12; --gov-green:#84CA12;
+  --gov-border:#D9E9E7; --border-focus:#0F7492;
+  --bg-app:#F0F9F8; --bg-warm:#F0F9F8; --color-warm-background:#F0F9F8;
+  --color-background:#FFFFFF; --color-surface:#FFFFFF;
+  --font-sans:'Poppins',system-ui,sans-serif; --font-heading:'Poppins',system-ui,sans-serif;
+  --font-family-base:'Poppins',system-ui,sans-serif; --font-mono:'Roboto',sans-serif;
+}
+html, body.gov-theme, body.gov-theme :where(button,input,select,textarea,h1,h2,h3,h4,h5,h6,p,a,span,label,div,table,th,td) {
+  font-family:'Poppins',system-ui,sans-serif !important;
+}
+body.gov-theme { background:var(--js-paper) !important; color:var(--js-ink) !important; }
+.dj-global-nav {
+  min-height:78px !important; padding:12px max(32px,5vw) !important;
+  background:#fff !important; border-bottom:1px solid var(--js-line) !important;
+  box-shadow:0 2px 10px rgba(13,72,82,.025);
+}
+.dj-global-brand { display:flex !important; align-items:center; gap:9px !important; color:var(--js-teal) !important; font-size:inherit !important; text-decoration:none !important; }
+.dj-global-svg { width:48px !important; height:30px !important; object-fit:contain; flex:0 0 auto; }
+.dj-brand-lockup { display:flex; flex-direction:column; gap:2px; align-items:flex-start; }
+.dj-brand-name { font-size:23px; line-height:1.04; color:var(--js-teal); font-weight:400; letter-spacing:-.055em; white-space:nowrap; }
+.dj-brand-name strong { font-weight:700; }
+.dj-brand-lockup small { color:#49666D; font-size:7px; line-height:1.45; letter-spacing:.23em; font-weight:600; white-space:nowrap; }
+.dj-global-links { gap:clamp(15px,2.2vw,32px) !important; }
+.dj-global-links a { color:#294D55 !important; font-size:13px !important; font-weight:500 !important; }
+.dj-global-links a[aria-current=page] { border-bottom:3px solid var(--js-lime) !important; color:var(--js-teal) !important; padding:11px 0 !important; }
+.dj-sidebar-toggle { color:var(--js-teal) !important; border-color:var(--js-line) !important; border-radius:9px !important; }
+#preloader { background:var(--js-paper) !important; }
+.preloader-inner { border:1px solid var(--js-line) !important; border-radius:22px !important; box-shadow:0 20px 60px rgba(14,73,82,.08) !important; }
+.preloader-bar { background:var(--js-teal) !important; }
+.preloader-bar-wrap { background:#DCEBE9 !important; }
+
+.app-shell { background:var(--js-paper) !important; min-height:calc(100vh - 78px) !important; }
+.app-sidebar { background:#fff !important; border-right:1px solid var(--js-line) !important; box-shadow:4px 0 20px rgba(13,72,82,.025); }
+.nav-item-btn { color:#355860 !important; border-radius:10px !important; transition:background .18s ease,color .18s ease; }
+.nav-item-btn:hover { color:var(--js-teal) !important; background:#EDF6F5 !important; }
+.nav-item-btn.active { color:#fff !important; background:var(--js-teal) !important; border-left:3px solid var(--js-lime) !important; box-shadow:0 5px 14px rgba(15,116,146,.13); }
+.nav-item-btn.active svg { color:#fff !important; }
+.view-container { background:transparent !important; }
+.view-title-en, .view-container .view-title-en, .view-container .view-title { color:var(--js-ink) !important; font-family:'Poppins',sans-serif !important; font-weight:700 !important; }
+.view-header { border-color:var(--js-line) !important; }
+.donor-form-card, .dashboard-card, .chart-card, .view-header, .stat-card, .form-section,
+.patient-card, .dashboard-stat-card, .modal-content {
+  border-color:var(--js-line) !important; border-radius:15px !important;
+  box-shadow:0 7px 22px rgba(15,69,78,.045) !important;
+}
+.stat-card, .dashboard-card, .chart-card, .donor-form-card, .form-section { background:#fff !important; }
+input, select, textarea { border-color:#C9DEDE !important; background:#fff !important; color:var(--js-ink) !important; }
+input:focus, select:focus, textarea:focus { border-color:var(--js-teal) !important; box-shadow:0 0 0 3px rgba(15,116,146,.12) !important; }
+button:focus-visible, a:focus-visible, input:focus-visible { outline:3px solid var(--js-lime) !important; outline-offset:3px; }
+.btn-primary-navy, .btn-primary-navy:hover { background:var(--js-teal) !important; color:#fff !important; }
+.btn-coral, .btn-coral-accent { background:var(--js-teal) !important; border-color:var(--js-teal) !important; color:#fff !important; box-shadow:0 5px 14px rgba(15,116,146,.16) !important; }
+.btn-coral:hover, .btn-coral-accent:hover { background:var(--js-teal-deep) !important; }
+.btn-certify-match, .btn-submit-donor, .btn-fetch-verify, .btn-sign-allocation,
+.btn-approve-a2a, .btn-sign-multisig-allocation, .btn-authenticate { background:var(--js-teal) !important; border-color:var(--js-teal) !important; }
+.gov-notice-callout { background:#F3F9E9 !important; border-color:#D7EBAF !important; color:#3F5D27 !important; }
+.gov-footer { background:var(--js-teal) !important; color:#fff !important; border-top:4px solid var(--js-lime) !important; }
+.gov-footer a, .gov-footer-link { color:rgba(255,255,255,.88) !important; }
+.gov-footer a:hover, .gov-footer-link:hover { color:#D6F4A5 !important; }
+.gov-footer-bottom { color:rgba(255,255,255,.78) !important; border-color:rgba(255,255,255,.18) !important; }
+.dj-small-legal { background:#EAF4F3 !important; color:#567178 !important; border-color:var(--js-line) !important; }
+
+@media(max-width:800px) {
+  .dj-global-nav { min-height:70px !important; padding:10px 17px !important; }
+  .dj-brand-name { font-size:21px; }
+  .dj-global-svg { width:42px !important; height:27px !important; }
+  .dj-global-links { gap:15px !important; }
+}
+@media(max-width:540px) {
+  .dj-global-links { justify-content:space-between; }
+  .dj-global-links a { font-size:11px !important; }
+  .dj-brand-name { font-size:19px; }
+  .dj-brand-lockup small { font-size:6px; letter-spacing:.18em; }
+}
